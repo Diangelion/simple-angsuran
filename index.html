@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Angsuran Calculator</title>
+  </head>
+  <body>
+    <h1>Angsuran</h1>
+
+    <div>
+      <label for="OTR">OTR (Rp.)</label>
+      <input id="OTR" type="number" />
+    </div>
+    <div>
+      <label for="DP">DP (Rp.)</label>
+      <input id="DP" type="number" />
+    </div>
+    <div>
+      <label for="JANGKA_WAKTU">JANGKA WAKTU (jumlah bulan)</label>
+      <input id="JANGKA_WAKTU" type="number" />
+    </div>
+
+    <button onclick="hitungAngsuran()">Hitung angsuran per bulan</button>
+
+    <p>Jumlah angsuran per bulan:</p>
+    <p id="angsuran"></p>
+
+    <script>
+      function hitungAngsuran() {
+        const OTR = parseInt(document.getElementById("OTR").value);
+        const DP = parseInt(document.getElementById("DP").value);
+        const JANGKA_WAKTU = parseInt(
+          document.getElementById("JANGKA_WAKTU").value
+        );
+
+        if (isNaN(OTR) || isNaN(DP) || isNaN(JANGKA_WAKTU)) {
+          alert(
+            "Masih ada input yang kosong atau tidak valid. Silakan lengkapi."
+          );
+          return;
+        }
+
+        const POKOK_HUTANG = OTR - DP;
+        let bungaPersen = 0;
+
+        if (JANGKA_WAKTU <= 12) {
+          bungaPersen = 12;
+        } else if (JANGKA_WAKTU <= 24) {
+          bungaPersen = 14;
+        } else if (JANGKA_WAKTU > 24) {
+          bungaPersen = 16.5;
+        } else {
+          alert("Terjadi kesalahan logika.");
+          return;
+        }
+
+        const JUMLAH_BUNGA = (POKOK_HUTANG * bungaPersen) / 100;
+        const AngsuranPerBulan = (POKOK_HUTANG + JUMLAH_BUNGA) / JANGKA_WAKTU;
+
+        document.getElementById(
+          "angsuran"
+        ).innerText = `Rp ${AngsuranPerBulan.toLocaleString("id-ID")}`;
+      }
+    </script>
+  </body>
+</html>
